@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/wwwroot
 /dist-server
 /tmp
 /out-tsc

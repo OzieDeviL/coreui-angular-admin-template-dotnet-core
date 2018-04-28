@@ -35,7 +35,7 @@ namespace CoreUIAngularDotnetCore
                 await next.Invoke();
                 if (context.Response.StatusCode == 404 && !context.Request.Path.Value.Contains("/api"))
                 {
-                    context.Request.Path = new PathString("/index.html");
+                    context.Request.Path = new PathString("/404");
                     await next.Invoke();
                 }
             });

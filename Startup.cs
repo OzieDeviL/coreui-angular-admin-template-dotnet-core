@@ -50,22 +50,22 @@ namespace CoreUIStarter
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // app.Use(async (HttpContext context, Func<Task> next) =>
-            // {
-            //     await next.Invoke();
-            //     if (context.Response.StatusCode == 404 && !context.Request.Path.Value.Contains("/api"))
-            //     {
-            //         context.Request.Path = new PathString("/404");
-            //         await next.Invoke();
-            //     }
-            // });
+            app.Use(async (HttpContext context, Func<Task> next) =>
+            {
+                await next.Invoke();
+                if (context.Response.StatusCode == 404 && !context.Request.Path.Value.Contains("/api"))
+                {
+                    context.Request.Path = new PathString("/404");
+                    await next.Invoke();
+                }
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();             
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();            
             }
-            // app.UseDefaultFiles();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>

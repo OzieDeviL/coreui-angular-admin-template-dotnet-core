@@ -36,8 +36,6 @@ namespace CoreUIStarter
                 }
                 if (context.HostingEnvironment.EnvironmentName == "Production")
                 {
-                    //Environment.SetEnvironmentVariable("secretsPath", @"C:\LocalAppDeployments\Artifex\ArtifexProdSite\artifexReleaseSecrets.json");
-                    //string secretsPath = Environment.GetEnvironmentVariable("secretsPath");
                     builder.AddJsonFile("./CoreUIStarterProductionSecrets.json");
                 }
             })

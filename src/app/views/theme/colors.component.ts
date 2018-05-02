@@ -8,9 +8,9 @@ export class ColorsComponent implements OnInit {
   public themeColors(): void {
     Array.from(document.querySelectorAll('.theme-color')).forEach(function(el) {
       let elem = document.getElementsByClassName(el.classList[0])[0];
-      let background = getStyle('background-color', elem);
+      const background = getStyle('background-color', elem);
 
-      let table = document.createElement('table');
+      const table = document.createElement('table');
       table.innerHTML = `
         <table class="w-100">
           <tr>

@@ -4,14 +4,16 @@ import { Component } from '@angular/core';
   templateUrl: 'dropdowns.component.html',
 })
 export class DropdownsComponent {
-
-  constructor() { }
-
+  status: { isOpen: boolean } = { isOpen: false };
+  disabled: boolean = false;
+  isDropup: boolean = true;
+  autoClose: boolean = false;
   items: string[] = [
     'The first choice!',
     'And another choice for you.',
     'but wait! A third!'
   ];
+  constructor() { }
 
   onHidden(): void {
     console.log('Dropdown is hidden');
@@ -23,7 +25,6 @@ export class DropdownsComponent {
     console.log('Dropdown state is changed');
   }
 
-  status: { isOpen: boolean } = { isOpen: false };
 
   toggleDropdown($event: MouseEvent): void {
     $event.preventDefault();
@@ -35,9 +36,4 @@ export class DropdownsComponent {
     this.status.isOpen = value;
   }
 
-  disabled: boolean = false;
-
-  isDropup: boolean = true;
-
-  autoClose: boolean = false;
 }

@@ -30,7 +30,6 @@ export class AlertsComponent {
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
     }));
   }
-  dismissible = true;
   alerts: any = [
     {
       type: 'success',
@@ -45,11 +44,7 @@ export class AlertsComponent {
       msg: `Better check yourself, you're not looking too good.`
     }
   ];
-
-  reset(): void {
-    this.alerts = this.alerts.map((alert: any) => Object.assign({}, alert));
-  }
-
+  alertsDismiss: any = [];
   alertsHtml: any = [
     {
       type: 'success',
@@ -64,27 +59,29 @@ export class AlertsComponent {
       msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
     }
   ];
-
+  dismissible = true;
   index = 0;
   messages = [
     'You successfully read this important alert message.',
     'Now this text is different from what it was before. Go ahead and click the button one more time',
     'Well done! Click reset button and you\'ll see the first message'
   ];
-
+  
   changeText() {
     if (this.messages.length - 1 !== this.index) {
       this.index++;
     }
   }
-
-  alertsDismiss: any = [];
-
+  
   add(): void {
     this.alertsDismiss.push({
       type: 'info',
       msg: `This alert will be closed in 5 seconds (added: ${new Date().toLocaleTimeString()})`,
       timeout: 5000
     });
+  }
+  
+  reset(): void {
+    this.alerts = this.alerts.map((alert: any) => Object.assign({}, alert));
   }
 }

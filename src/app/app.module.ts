@@ -31,7 +31,7 @@ import {
   AppHeaderModule,
   AppFooterModule,
   AppSidebarModule,
-} from '@coreui/angular'
+} from '@coreui/angular';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';

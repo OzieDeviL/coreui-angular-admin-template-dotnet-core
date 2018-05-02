@@ -9,7 +9,10 @@ export class ProgressComponent implements OnDestroy {
   showWarning: boolean;
   dynamic: number;
   type: string;
-
+  stacked: any[] = [];
+  timer: any = null;
+  buttonCaption: string = 'Start';
+  
   constructor() {
     this.random();
     this.randomStacked()
@@ -42,7 +45,6 @@ export class ProgressComponent implements OnDestroy {
 
   }
 
-  stacked: any[] = [];
 
   randomStacked(): void {
     let types = ['success', 'info', 'warning', 'danger'];
@@ -59,9 +61,6 @@ export class ProgressComponent implements OnDestroy {
       });
     }
   }
-
-  timer: any = null;
-  buttonCaption: string = 'Start';
 
   randomize(): void {
     if (this.timer) {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace CoreUIAngularDotnetCore
+namespace CoreUIStarter
 {
     public class Program
     {
@@ -19,7 +19,29 @@ namespace CoreUIAngularDotnetCore
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            .ConfigureAppConfiguration((WebHostBuilderContext context, IConfigurationBuilder builder) =>
+            {
+                if (context.HostingEnvironment.EnvironmentName == "Development")
+                {
+                    //shared
+                    if (File.Exists("./CoreUIStarterDevSecrets.json"))
+                    {
+                        builder.AddJsonFile("./CoreUIStarterDevSecrets.json");
+                    }
+                    //local
+                    else
+                    {
+                        builder.AddUserSecrets<Startup>();
+                    }
+                }
+                if (context.HostingEnvironment.EnvironmentName == "Production")
+                {
+                    //Environment.SetEnvironmentVariable("secretsPath", @"C:\LocalAppDeployments\Artifex\ArtifexProdSite\artifexReleaseSecrets.json");
+                    //string secretsPath = Environment.GetEnvironmentVariable("secretsPath");
+                    builder.AddJsonFile("./CoreUIStarterProductionSecrets.json");
+                }
+            })
+            .UseStartup<Startup>()
+            .Build();
     }
 }

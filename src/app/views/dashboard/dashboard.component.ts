@@ -207,14 +207,14 @@ export class DashboardComponent implements OnInit {
   ];
   public barChart1Legend = false;
   public barChart1Type = 'bar';
-  
+
   // mainChart
-  
+
   public mainChartElements = 27;
   public mainChartData1: Array<number> = [];
   public mainChartData2: Array<number> = [];
   public mainChartData3: Array<number> = [];
-  
+
   public mainChartData: Array<any> = [
     {
       data: this.mainChartData1,
@@ -295,9 +295,9 @@ export class DashboardComponent implements OnInit {
   ];
   public mainChartLegend = false;
   public mainChartType = 'line';
-  
+
   // social box charts
-  
+
   public brandBoxChartData1: Array<any> = [
     {
       data: [65, 59, 84, 84, 51, 55, 40],
@@ -322,7 +322,7 @@ export class DashboardComponent implements OnInit {
       label: 'Google+'
     }
   ];
-  
+
   public brandBoxChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public brandBoxChartOptions: any = {
     tooltips: {
@@ -363,11 +363,11 @@ export class DashboardComponent implements OnInit {
   ];
   public brandBoxChartLegend = false;
   public brandBoxChartType = 'line';
-  
+
   public random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  
+
   ngOnInit(): void {
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
@@ -376,6 +376,6 @@ export class DashboardComponent implements OnInit {
       this.mainChartData3.push(65);
     }
   }
-  radioModel: string = 'Month';
-  
+  radioModel = 'Month';
+
 }

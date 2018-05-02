@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { getStyle } from '@coreui/coreui/js/src/utilities/'
+import { getStyle } from '@coreui/coreui/js/src/utilities/';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips/js/';
 
 @Component({

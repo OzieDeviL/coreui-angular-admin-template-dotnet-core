@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getStyle, rgbToHex } from '@coreui/coreui/js/src/utilities/'
+import { getStyle, rgbToHex } from '@coreui/coreui/js/src/utilities/';
 
 @Component({
   templateUrl: 'colors.component.html'
@@ -7,7 +7,7 @@ import { getStyle, rgbToHex } from '@coreui/coreui/js/src/utilities/'
 export class ColorsComponent implements OnInit {
   public themeColors(): void {
     Array.from(document.querySelectorAll('.theme-color')).forEach(function(el) {
-      let elem = document.getElementsByClassName(el.classList[0])[0];
+      const elem = document.getElementsByClassName(el.classList[0])[0];
       const background = getStyle('background-color', elem);
 
       const table = document.createElement('table');

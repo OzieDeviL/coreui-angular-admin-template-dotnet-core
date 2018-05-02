@@ -66,13 +66,13 @@ export class AlertsComponent {
     'Now this text is different from what it was before. Go ahead and click the button one more time',
     'Well done! Click reset button and you\'ll see the first message'
   ];
-  
+
   changeText() {
     if (this.messages.length - 1 !== this.index) {
       this.index++;
     }
   }
-  
+
   add(): void {
     this.alertsDismiss.push({
       type: 'info',
@@ -80,7 +80,7 @@ export class AlertsComponent {
       timeout: 5000
     });
   }
-  
+
   reset(): void {
     this.alerts = this.alerts.map((alert: any) => Object.assign({}, alert));
   }

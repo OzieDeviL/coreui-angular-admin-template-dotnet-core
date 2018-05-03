@@ -2,11 +2,17 @@ import { Component, ErrorHandler, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CustomAccountValidators } from "../../custom-account-validators";
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+
+
+import { AccountService } from '../account.service';
+import { AccountRegistration } from "../account-data-models";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'register.component.html',
-  inputs: ["returnUrl"]
+  inputs: ["returnUrl"],
+  providers: [AccountService]
 })
 export class RegisterComponent {
   @Input() returnUrl;
@@ -19,8 +25,8 @@ export class RegisterComponent {
     twitter: false
   }
 
-  constructor(private formBuilder: FormBuilder) { 
-    this.createForm();
+  constructor(private formBuilder: FormBuilder, private accountService: AccountService) { 
+    this.createForm(); 
   }
 
   createForm() {
@@ -30,7 +36,7 @@ export class RegisterComponent {
           )
         ],
         password: ['', Validators.compose(
-          [Validators.required, Validators.pattern(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,256})\S$/)]
+          [Validators.required, Validators.pattern(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,256})\S$/)]
         )],
         confirmPassword: ['', Validators.required]
       },
@@ -44,13 +50,18 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      console.log(this.registrationForm.value);
+      let userRegistration = new AccountRegistration(
+        this.email.value, 
+        this.password.value,
+        this.confirmPassword.value)
+      this.accountService.postNewUserRegistration(userRegistration)
+        .subscribe({
+          next: x => console.log('Observer got a next value ' + x),
+          error: x=> console.error('Observer got an error ' + x)
+        });     
       //TODO Modal Pop-up
-      this.router.navigateByUrl(this.returnUrl);
     } else {
       throw new console.error("Invalid Form");
-      
     }
-    console.log(this.registrationForm.value);
   }
 }

@@ -12,12 +12,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CoreUIStarter.Models;
 using CoreUIStarter.Models.AccountViewModels;
+using CoreUIStarter.Models.AccountRequestModels;
 using CoreUIStarter.Services;
 
 namespace CoreUIStarter.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -214,8 +215,8 @@ namespace CoreUIStarter.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([FromBody]RegisterRequestModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -232,13 +233,12 @@ namespace CoreUIStarter.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return Ok();
                 }
                 AddErrors(result);
+                return new BadRequestObjectResult(result);
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return new BadRequestObjectResult(ModelState);
         }
 
         [HttpPost]

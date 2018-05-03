@@ -7,39 +7,95 @@
             <div class="card-body p-4">
               <h1>Register</h1>
               <p class="text-muted">Create your account</p>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-user"></i></span>
+
+              <form [formGroup]="registrationForm"
+                    (ngSubmit)="onSubmit()">
+
+                <div class="text-danger mb-1"
+                     *ngIf="email.errors?.required && email.dirty && email.touched">
+                  *Required
                 </div>
-                <input type="text" class="form-control" placeholder="Username">
-              </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">@</span>
+                <div class="text-danger mb-1"
+                     *ngIf="email.errors?.email && email.value && email.dirty && email.touched">
+                  *Please enter a valid email
                 </div>
-                <input type="text" class="form-control" placeholder="Email">
-              </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-lock"></i></span>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="email"
+                         formControlName="email"
+                         class="form-control"
+                         placeholder="Email">
                 </div>
-                <input type="password" class="form-control" placeholder="Password">
-              </div>
-              <div class="input-group mb-4">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="icon-lock"></i></span>
+
+                <div class="text-danger mb-1"
+                     *ngIf="password.errors?.required && password.dirty && password.touched">
+                  *Required
                 </div>
-                <input type="password" class="form-control" placeholder="Repeat password">
-              </div>
-              <button type="button" class="btn btn-block btn-success">Create Account</button>
-            </div>
-            <div class="card-footer p-4">
-              <div class="row">
-                <div class="col-6">
-                  <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
+                <div class="text-danger mb-1"
+                     *ngIf="password.errors?.pattern && password.value && password.dirty && password.touched">
+                  *A valid password must be at least 6 characters long and include an uppercase letter, lowercase letter, and a number. It
+                  must not include any special characters.
                 </div>
-                <div class="col-6">
-                  <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="icon-lock"></i>
+                    </span>
+                  </div>
+                  <input type="password"
+                         formControlName="password"
+                         class="form-control"
+                         placeholder="Password">
+                </div>
+
+                <div class="text-danger mb-1"
+                     *ngIf="confirmPassword.errors?.required && confirmPassword.dirty && confirmPassword.touched && password.value">
+                  *Required
+                </div>
+                <div class="text-danger mb-1"
+                     *ngIf="confirmPassword.errors?.matchPassword && confirmPassword.value && confirmPassword.dirty && confirmPassword.touched && password.value">
+                  *Password must match
+                </div>
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="icon-lock"></i>
+                    </span>
+                  </div>
+                  <input type="password"
+                         formControlName="confirmPassword"
+                         class="form-control"
+                         placeholder="Repeat Password">
+                </div>
+
+                <button type="submit"
+                        class="btn btn-block btn-success"
+                        [disabled]="!registrationForm.valid">
+                  Create Account
+                </button>
+              </form>
+              <div *ngIf="vendorOauthImplemented.any">
+                <div class="card-footer p-4">
+                  <div class="row">
+                    <div *ngIf="vendorOauthImplemented.facebook">
+                      <div class="col-6">
+                        <button class="btn btn-block btn-facebook"
+                                type="button">
+                          <span>facebook</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="vendorOauthImplemented.twitter">
+                      <div class="col-6">
+                        <button class="btn btn-block btn-twitter"
+                                type="button">
+                          <span>twitter</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -49,3 +105,7 @@
     </div>
   </main>
 </div>
+
+<p>Form value:: {{registrationForm.value | json }}</p>
+<p>Email Status:: {{email.status | json }}</p>
+<p>Form status:: {{registrationForm.status | json }}</p>

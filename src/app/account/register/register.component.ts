@@ -81,7 +81,10 @@ export class RegisterComponent {
   }
 
   openSuccessModal() {
-    const initialState = { class: 'modal-success' };
+    const initialState = { 
+      class: 'modal-success',
+      ignoreBackdropClick: true
+    };
     this.bsModalRef = this.modalService.show(ModalSuccessComponent, initialState);
     this.bsModalRef.content.list = [ `Thanks for joining, ${this.email.value}` ];
     this.bsModalRef.content.title = 'Registration Successful!';
@@ -97,5 +100,4 @@ export class RegisterComponent {
     }
     this.isPending = false;
   }
-
 }

@@ -1,0 +1,19 @@
+<!-- <div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-success" role="document">
+    <div class="modal-content"> -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{title}}</h4>
+        <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p *ngFor="let item of list">{{item}}</p>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="includeSecondaryBtn" type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">{{secondaryBtnName}}</button>
+        <button type="button" class="btn btn-success" (click)="bsModalRef.hide()">{{primaryBtnName}}</button>
+      </div>
+    <!-- </div>
+  </div>
+</div> -->

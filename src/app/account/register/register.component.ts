@@ -18,10 +18,9 @@ import { ModalSuccessComponent } from '../../notifications/modals/modal-success.
   providers: [AccountService]
 })
 export class RegisterComponent {
-  @Input() returnUrl;
+  @Input() returnUrl = '/dashboard';
 
   bsModalRef: BsModalRef;
-  router: Router;
   registrationForm: FormGroup;
   alreadyRegisteredEmail: string;
   isPending = false;
@@ -35,7 +34,8 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder, 
     private accountService: AccountService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router
   ) { 
     this.createForm(); 
   }
@@ -81,13 +81,21 @@ export class RegisterComponent {
   }
 
   openSuccessModal() {
-    const initialState = { 
+    this.modalService.onShown.subscribe({
+      next: x => { this.router.navigateByUrl(this.returnUrl) }
+    })
+    const options = { 
       class: 'modal-success',
-      ignoreBackdropClick: true
+      ignoreBackdropClick: true,
+      initialState: {
+        title: 'Registration Successful!',
+        body: [`Thanks for joining, ${this.email.value}. Check your email to confirm your account.`],
+        closeBtn: true,
+        routeBtn: false,
+        closeBtnName: 'Close'
+      }
     };
-    this.bsModalRef = this.modalService.show(ModalSuccessComponent, initialState);
-    this.bsModalRef.content.list = [ `Thanks for joining, ${this.email.value}` ];
-    this.bsModalRef.content.title = 'Registration Successful!';
+    this.bsModalRef = this.modalService.show(ModalSuccessComponent, options);
   }
 
   handleErrors(result) {

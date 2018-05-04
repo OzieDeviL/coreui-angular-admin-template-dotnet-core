@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 
@@ -6,25 +6,15 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   selector: 'notifications-modal-success',
   templateUrl: './modal-success.component.html'
 })
-export class ModalSuccessComponent implements OnInit {
+export class ModalSuccessComponent {
   title: string = "Success";
-  primaryBtnName: string = "Close";
-  includeSecondaryBtn: boolean = false;
-  secondaryBtnName: string;
-  list: any[] = [];
+  closeBtn: boolean = true;
+  closeBtnName: string = "Default";
+  routeBtn: boolean = false;
+  routeBtnName: string = "Default";
+  route: string;
+  Body: any[] = ['Default body'];
 
   constructor(public bsModalRef: BsModalRef) {
-  }
-
-  // get title () { return this.bsModalRef.content.title};
-  // get primaryBtnName () { return this.bsModalRef.content.primaryBtnName};
-  // get includeSecondaryBtn () { return this.bsModalRef.content.includeSecondaryBtn};
-  // get secondaryBtnName () { return this.bsModalRef.content.secondaryBtnName};
-  // get list () { return this.bsModalRef.content.list};
-
-  ngOnInit() { this.list.push("On pirate satellite."); }
-
-  closeModal() {
-    this.bsModalRef.hide();
   }
 }

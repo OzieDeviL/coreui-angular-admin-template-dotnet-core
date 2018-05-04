@@ -1,12 +1,15 @@
 import { Component, ErrorHandler, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CustomAccountValidators } from "../../custom-account-validators";
+import { CustomAccountValidators } from "../custom-account-validators";
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
+import { BsModalService } from 'ngx-bootstrap/modal'
+import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 
 import { AccountService } from '../account.service';
 import { AccountRegistration } from "../account-data-models";
+import { Title } from '@angular/platform-browser';
+import { ModalSuccessComponent } from '../../notifications/modals/modal-success.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,15 +20,23 @@ import { AccountRegistration } from "../account-data-models";
 export class RegisterComponent {
   @Input() returnUrl;
 
+  bsModalRef: BsModalRef;
   router: Router;
   registrationForm: FormGroup;
+  alreadyRegisteredEmail: string;
+  isPending = false;
+  
   vendorOauthImplemented: {} = {
     any: false,
     facebook: false,
     twitter: false
   }
 
-  constructor(private formBuilder: FormBuilder, private accountService: AccountService) { 
+  constructor(
+    private formBuilder: FormBuilder, 
+    private accountService: AccountService,
+    private modalService: BsModalService
+  ) { 
     this.createForm(); 
   }
 
@@ -54,14 +65,37 @@ export class RegisterComponent {
         this.email.value, 
         this.password.value,
         this.confirmPassword.value)
+      this.isPending = true;
       this.accountService.postNewUserRegistration(userRegistration)
         .subscribe({
-          next: x => console.log('Observer got a next value ' + x),
-          error: x=> console.error('Observer got an error ' + x)
-        });     
+          next: x => { 
+            this.isPending = false;
+            this.openSuccessModal();
+          },
+          error: result => this.handleErrors(result)
+        })     
       //TODO Modal Pop-up
     } else {
       throw new console.error("Invalid Form");
     }
   }
+
+  openSuccessModal() {
+    const initialState = { class: 'modal-success' };
+    this.bsModalRef = this.modalService.show(ModalSuccessComponent, initialState);
+    this.bsModalRef.content.list = [ `Thanks for joining, ${this.email.value}` ];
+    this.bsModalRef.content.title = 'Registration Successful!';
+  }
+
+  handleErrors(result) {
+    switch (result.error.errors[0].code) {
+      case 'DuplicateUserName':
+        this.alreadyRegisteredEmail = this.email.value;
+        break;
+      default:
+        break;
+    }
+    this.isPending = false;
+  }
+
 }

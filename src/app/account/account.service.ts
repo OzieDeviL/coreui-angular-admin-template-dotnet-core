@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from "rxjs/observable/of";
 import { catchError, map, tap } from "rxjs/operators";
@@ -10,7 +10,7 @@ import { AccountRegistration } from "./account-data-models";
 export class AccountService {
   accountResources = {
     prefix: 'api/account/',
-    register: 'register' 
+    register: 'register'
   }
   httpOptions = {
     headers: new HttpHeaders({
@@ -25,23 +25,22 @@ export class AccountService {
       this.accountResources.prefix + this.accountResources.register,
       newUserRegistration,
       this.httpOptions
-    ).pipe(
-        tap(registration => console.log("tapped succesful registration attempt: " + registration)),
-        catchError(this.handleError('postRegistration',[]))
-      
-    )
+    ).pipe(tap(
+      successResult => {},
+      errorResult => this.handleError<HttpErrorResponse>('postNewUserRegistration', errorResult)
+    ))
   }
 
-   /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
-  */
+  /**
+* Handle Http operation that failed.
+* Let the app continue.
+* @param operation - name of the operation that failed
+* @param result - optional value to return as the observable result
+ */
   private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error('service handleError activated: ' + error);
-      return of(result as T)
+    return (result: any): Observable<T> => {
+      console.error('service handleError activated for: ' + operation, result);
+      return of(result as T);
     }
   }
 

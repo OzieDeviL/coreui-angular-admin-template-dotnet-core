@@ -26,6 +26,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AccountModule } from './account/account.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -52,6 +53,7 @@ const APP_CONTAINERS = [
     ModalModule,
     AccountModule,
     HttpClientModule,
+    NotificationsModule,
   ],
   declarations: [
     AppComponent,
@@ -61,8 +63,8 @@ const APP_CONTAINERS = [
   ],
   exports: [
     ReactiveFormsModule,
-    ModalModule,
     HttpClientModule,
+    NotificationsModule
   ],
   providers: [{
     provide: LocationStrategy,

@@ -11,7 +11,7 @@ import { AccountService } from './account.service';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [
     LoginComponent,

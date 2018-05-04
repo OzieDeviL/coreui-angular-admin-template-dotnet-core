@@ -19,6 +19,10 @@
                      *ngIf="email.errors?.email && email.value && email.dirty && email.touched">
                   *Please enter a valid email
                 </div>
+                <div class="text-danger mb-1"
+                    *ngIf="email.value === alreadyRegisteredEmail">
+                  *That email has already been registered.
+                </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">@</span>
@@ -72,7 +76,7 @@
 
                 <button type="submit"
                         class="btn btn-block btn-success"
-                        [disabled]="!registrationForm.valid">
+                        [disabled]="registrationForm.invalid || isPending">
                   Create Account
                 </button>
               </form>
@@ -105,3 +109,5 @@
     </div>
   </main>
 </div>
+
+<button type="button" class="btn btn-primary" (click)="openSuccessModal()">Create modal with component</button>

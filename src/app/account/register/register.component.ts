@@ -19,7 +19,7 @@ import { ModalSuccessComponent } from '../../notifications/modals/modal-success.
 })
 export class RegisterComponent {
   @Input() returnUrl = '/dashboard';
-
+  
   bsModalRef: BsModalRef;
   registrationForm: FormGroup;
   alreadyRegisteredEmail: string;
@@ -31,6 +31,10 @@ export class RegisterComponent {
     twitter: false
   }
 
+  get email() { return this.registrationForm.get('email') };
+  get password() { return this.registrationForm.get('password') };
+  get confirmPassword() { return this.registrationForm.get('confirmPassword') };
+  
   constructor(
     private formBuilder: FormBuilder, 
     private accountService: AccountService,
@@ -55,10 +59,6 @@ export class RegisterComponent {
     )
   }
 
-  get email() { return this.registrationForm.get('email') };
-  get password() { return this.registrationForm.get('password') };
-  get confirmPassword() { return this.registrationForm.get('confirmPassword') };
-
   onSubmit() {
     if (this.registrationForm.valid) {
       let userRegistration = new AccountRegistration(
@@ -66,7 +66,7 @@ export class RegisterComponent {
         this.password.value,
         this.confirmPassword.value)
       this.isPending = true;
-      this.accountService.postNewUserRegistration(userRegistration)
+      this.accountService.register(userRegistration)
         .subscribe({
           next: x => { 
             this.isPending = false;

@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from "rxjs/observable/of";
 import { catchError, map, tap } from "rxjs/operators";
 
-import { AccountRegistration } from "./account-data-models";
+import { AccountRegistration, LoginRequest, ForgotPasswordRequest } from "./account-data-models";
+import { concat } from 'rxjs/operators/concat';
 
 @Injectable()
 export class AccountService {
   accountResources = {
     prefix: 'api/account/',
-    register: 'register'
+    register: 'register',
+    login: 'login',
+    resetPassword: 'forgotPassword'
   }
   httpOptions = {
     headers: new HttpHeaders({
@@ -20,15 +23,38 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  postNewUserRegistration(newUserRegistration: AccountRegistration): Observable<any> {
+  login(loginRequestBody: LoginRequest): Observable<HttpResponse<any>> {
+    //get verb to login endpoint clears cookies for a clean login
+    return this.http.post<HttpResponse<any>>(
+      this.accountResources.prefix + this.accountResources.login,
+      loginRequestBody,
+      {observe: 'response'}
+    ).pipe(tap(
+      successResponse => { },
+      errorResponse => this.handleError<HttpErrorResponse>('login', errorResponse)
+    ))
+  }
+
+  register(registrationRequestBody: AccountRegistration): Observable<any> {
     return this.http.post<AccountRegistration>(
       this.accountResources.prefix + this.accountResources.register,
-      newUserRegistration,
+      registrationRequestBody,
       this.httpOptions
-    ).pipe(tap(
-      successResult => {},
-      errorResult => this.handleError<HttpErrorResponse>('postNewUserRegistration', errorResult)
+        ).pipe(tap(
+          successResult => { },
+          errorResult => this.handleError<HttpErrorResponse>('register', errorResult)
     ))
+  }
+
+  forgotPassword(forgotPasswordRequestBody: ForgotPasswordRequest ): Observable<any> {
+    return this.http.post<HttpResponse<any>>(
+      this.accountResources.prefix + this.accountResources.resetPassword,
+      forgotPasswordRequestBody,
+      this.httpOptions)
+        .pipe(tap(
+          successResult => { },
+          errorResult => this.handleError<HttpErrorResponse>('forgotPassword', errorResult)
+      ))
   }
 
   /**
@@ -39,7 +65,6 @@ export class AccountService {
  */
   private handleError<T>(operation = 'operation', result?: T) {
     return (result: any): Observable<T> => {
-      console.error('service handleError activated for: ' + operation, result);
       return of(result as T);
     }
   }

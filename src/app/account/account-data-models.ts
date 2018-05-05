@@ -1,19 +1,21 @@
+
+
 export class AccountRegistration {
-    email: string;
-    password: string;
-    confirmPassword: string;
 
     constructor (
-        email: string,
-        password: string,
-        confirmPassword: string) 
-        {
-            this.email = email;
-            this.password = password;
-            this.confirmPassword = confirmPassword;
-        }
+        private email: string,
+        private password: string,
+        private confirmPassword: string) 
+    {}
 }
 
-export class LoginAttempt {
-    constructor (email: string, password: string) {}
+export class LoginRequest {
+    constructor (
+        private email: string, 
+        private password: string) 
+    {}
+}
+
+export class ForgotPasswordRequest {
+    constructor ( private email: string) {}
 }

@@ -49,13 +49,14 @@ namespace CoreUIStarter.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return Ok();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        [Produces("application/json")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([FromBody]LoginRequestModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -66,7 +67,7 @@ namespace CoreUIStarter.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    return Ok();
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -80,12 +81,12 @@ namespace CoreUIStarter.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return BadRequest(ModelState);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return BadRequest(ModelState);
         }
 
         [HttpGet]
@@ -236,13 +237,13 @@ namespace CoreUIStarter.Controllers
                     return Ok();
                 }
                 AddErrors(result);
-                return new BadRequestObjectResult(result);
+                return BadRequest(result);
             }
-            return new BadRequestObjectResult(ModelState);
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -346,17 +347,10 @@ namespace CoreUIStarter.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordRequestModel model)
         {
             if (ModelState.IsValid)
             {
@@ -364,7 +358,7 @@ namespace CoreUIStarter.Controllers
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                    return Ok("Redirect to ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please
@@ -373,11 +367,11 @@ namespace CoreUIStarter.Controllers
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
                 await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                    $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                return Ok("Redirect to ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return BadRequest(ModelState);
         }
 
         [HttpGet]

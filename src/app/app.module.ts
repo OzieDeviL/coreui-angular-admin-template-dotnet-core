@@ -27,6 +27,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AccountModule } from './account/account.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { NotificationsDemoModule } from './demo/notifications/notifications-demo.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true

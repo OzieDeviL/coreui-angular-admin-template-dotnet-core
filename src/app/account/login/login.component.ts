@@ -8,7 +8,7 @@ import { AccountService } from '../account.service';
 
 import { LoginRequest, ForgotPasswordRequest } from '../account-data-models';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalSuccessComponent } from '../../notifications/modals/modal-success.component';
+import { ModalsComponent } from '../../notifications/modals/modals.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -90,7 +90,7 @@ export class LoginComponent {
               routeBtn: false,
             }
           }
-          this.bsModalRef = this.bsModalService.show(ModalSuccessComponent, modalOptions)
+          this.bsModalRef = this.bsModalService.show(ModalsComponent, modalOptions)
           this.forgottenPassword = false;
         },
         error: response => {

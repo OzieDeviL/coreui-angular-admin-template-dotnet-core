@@ -9,7 +9,8 @@ import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { AccountService } from '../account.service';
 import { AccountRegistration } from "../account-data-models";
 import { Title } from '@angular/platform-browser';
-import { ModalSuccessComponent } from '../../notifications/modals/modal-success.component';
+import { ModalsComponent } from '../../notifications/modals/modals.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -80,6 +81,19 @@ export class RegisterComponent {
     }
   }
 
+  open500ErrorModal() {
+    const options = {
+      class: 'modal-danger',
+      initialState: {
+        title: 'Error',
+        body: ['Sorry. Something went wrong on our end, please retry.',
+          'If this error persists, please try again later.'  
+        ]
+      },
+    };
+    this.bsModalRef = this.modalService.show(ModalsComponent, options);
+  }
+
   openSuccessModal() {
     this.modalService.onShown.subscribe({
       next: x => { this.router.navigateByUrl(this.returnUrl) }
@@ -95,16 +109,14 @@ export class RegisterComponent {
         closeBtnName: 'Close'
       }
     };
-    this.bsModalRef = this.modalService.show(ModalSuccessComponent, options);
+    this.bsModalRef = this.modalService.show(ModalsComponent, options);
   }
 
-  handleErrors(result) {
-    switch (result.error.errors[0].code) {
-      case 'DuplicateUserName':
+  handleErrors(result: HttpErrorResponse) {
+    if (result.error.errors[0].code === 'DupicateUserName') {
         this.alreadyRegisteredEmail = this.email.value;
-        break;
-      default:
-        break;
+    } else if (500 <= result.status && result.status <=599) {
+      this.open500ErrorModal();
     }
     this.isPending = false;
   }

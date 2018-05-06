@@ -4,36 +4,28 @@ import { NgModule } from '@angular/core';
 
 // Alert Component
 import { AlertModule } from 'ngx-bootstrap/alert';
-import { AlertsComponent } from './alerts.component';
-
-import { BadgesComponent } from './badges.component';
 
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { ModalsComponent } from './modals.component';
+import { ModalsComponent } from './modals/modals.component';
+import { Modal500Component } from './modal-500/modal-500.component';
 
-// Notifications Routing
-import { NotificationsRoutingModule } from './notifications-routing.module';
-import { ModalSuccessComponent } from './modals/modal-success.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    NotificationsRoutingModule,
     AlertModule.forRoot(),
     ModalModule.forRoot()
   ],
   declarations: [
-    AlertsComponent,
-    BadgesComponent,
     ModalsComponent,
-    ModalSuccessComponent
+    Modal500Component,
   ],
   entryComponents: [
-    ModalSuccessComponent
+    ModalsComponent
   ],
   exports: [
-    ModalSuccessComponent
+    ModalsComponent
   ]
 })
 export class NotificationsModule { }

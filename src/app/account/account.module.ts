@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AccountService } from './account.service';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { AccountService } from './account.service';
   declarations: [
     LoginComponent,
     RegisterComponent,
+    PasswordResetComponent,
   ],
   providers: [AccountService]
 })

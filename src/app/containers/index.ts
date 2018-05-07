@@ -1,2 +1,1 @@
-export * from './default-layout';
-export * from './layout';
+export * from './layout.component';

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
-
 @Component({
   selector: 'notifications-modal-500',
-  templateUrl: './modal-500.component.html'
+  templateUrl: './modal-500.component.html',
 })
 export class Modal500Component {
   title: string = 'Error'

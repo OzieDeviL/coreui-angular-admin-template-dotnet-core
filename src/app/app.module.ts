@@ -12,7 +12,7 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { AppAsideModule, AppBreadcrumbModule, AppHeaderModule, AppFooterModule, AppSidebarModule, } from '@coreui/angular';
 
 // Import containers
-import { DefaultLayoutComponent, LayoutComponent } from './containers';
+import { LayoutComponent } from './containers';
 
 import { AppComponent } from './app.component';
 import { P404Component } from './views/error/404.component';
@@ -27,13 +27,11 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AccountModule } from './account/account.module';
 import { NotificationsModule } from './notifications/notifications.module';
-import { NotificationsDemoModule } from './demo/notifications/notifications-demo.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
 const APP_CONTAINERS = [
-  DefaultLayoutComponent,
   LayoutComponent
 ];
 

@@ -13,7 +13,7 @@ import { ModalsComponent } from '../../notifications/modals/modals.component';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-register',
   templateUrl: 'register.component.html',
   inputs: ["returnUrl"],
   providers: [AccountService]
@@ -86,7 +86,8 @@ export class RegisterComponent {
       class: 'modal-danger',
       initialState: {
         title: 'Error',
-        body: ['Sorry. Something went wrong on our end, please retry.',
+        body: [
+          'Sorry. Something went wrong on our end, please retry.',
           'If this error persists, please try again later.'  
         ]
       },

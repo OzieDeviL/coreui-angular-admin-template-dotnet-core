@@ -19,3 +19,11 @@ export class LoginRequest {
 export class ForgotPasswordRequest {
     constructor ( private email: string) {}
 }
+
+export class ResetPasswordRequest {
+    constructor ( 
+        private email: string,
+        private password: string,
+        private confirmPassword: string) 
+    {}
+}

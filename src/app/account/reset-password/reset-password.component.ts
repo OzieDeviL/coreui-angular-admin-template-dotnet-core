@@ -1,4 +1,4 @@
-import { Component, ErrorHandler, Input } from '@angular/core';
+import { Component, ErrorHandler } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CustomAccountValidators } from "../custom-account-validators";
 import { Router } from '@angular/router';
@@ -7,34 +7,25 @@ import { BsModalService } from 'ngx-bootstrap/modal'
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 
 import { AccountService } from '../account.service';
-import { AccountRegistration } from "../account-data-models";
+import { AccountRegistration, ResetPasswordRequest } from "../account-data-models";
 import { Title } from '@angular/platform-browser';
 import { ModalsComponent } from '../../notifications/modals/modals.component';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: 'register.component.html',
-  inputs: ["returnUrl"],
+  selector: 'app-reset-password',
+  templateUrl: 'reset-password.component.html',
   providers: [AccountService]
 })
-export class RegisterComponent {
-  @Input() returnUrl = '/dashboard';
+export class ResetPasswordComponent {
   
   bsModalRef: BsModalRef;
-  registrationForm: FormGroup;
-  alreadyRegisteredEmail: string;
+  resetPasswordForm: FormGroup;
   isPending = false;
   
-  vendorOauthImplemented: {} = {
-    any: false,
-    facebook: false,
-    twitter: false
-  }
-
-  get email() { return this.registrationForm.get('email') };
-  get password() { return this.registrationForm.get('password') };
-  get confirmPassword() { return this.registrationForm.get('confirmPassword') };
+  get email() { return this.resetPasswordForm.get('email') };
+  get password() { return this.resetPasswordForm.get('password') };
+  get confirmPassword() { return this.resetPasswordForm.get('confirmPassword') };
   
   constructor(
     private formBuilder: FormBuilder, 
@@ -46,14 +37,10 @@ export class RegisterComponent {
   }
 
   createForm() {
-    this.registrationForm = this.formBuilder.group(
-      { email: ['', Validators.compose(
-            [Validators.required, Validators.email]
-          )
-        ],
-        password: ['', Validators.compose(
-          [Validators.required, Validators.pattern(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,256})\S$/)]
-        )],
+    this.resetPasswordForm = this.formBuilder.group(
+      { 
+        email: ['', Validators.compose([Validators.required, Validators.email])],
+        password: ['', Validators.compose([Validators.required, Validators.pattern(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,256})\S$/)])],
         confirmPassword: ['', Validators.required]
       },
       {validator: CustomAccountValidators.matchPassword}    
@@ -61,13 +48,13 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registrationForm.valid) {
-      let userRegistration = new AccountRegistration(
-        this.email.value, 
+    if (this.resetPasswordForm.valid) {
+      let resetPasswordRequest = new ResetPasswordRequest(
+        this.email.value,
         this.password.value,
         this.confirmPassword.value)
       this.isPending = true;
-      this.accountService.register(userRegistration)
+      this.accountService.resetPassword(resetPasswordRequest)
         .subscribe({
           next: x => { 
             this.isPending = false;
@@ -87,14 +74,14 @@ export class RegisterComponent {
 
   openSuccessModal() {
     this.modalService.onShown.subscribe({
-      next: x => { this.router.navigateByUrl(this.returnUrl) }
+      next: x => { this.router.navigateByUrl("/dashboard") }
     })
     const options = { 
       class: 'modal-success',
       ignoreBackdropClick: true,
       initialState: {
-        title: 'Registration Successful!',
-        body: [`Thanks for joining, ${this.email.value}. Check your email to confirm your account.`],
+        title: 'Password Reset Successful!',
+        body: [`Happy apping, ${this.email.value}.`],
         closeBtn: true,
         routeBtn: false,
         closeBtnName: 'Close'
@@ -104,11 +91,11 @@ export class RegisterComponent {
   }
 
   handleErrors(result: HttpErrorResponse) {
-    if (result.error.errors[0].code === 'DupicateUserName') {
-        this.alreadyRegisteredEmail = this.email.value;
-    } else if (500 <= result.status && result.status <=599) {
-      this.open500ErrorModal();
-    }
+    // if (result.error.errors[0].code === 'DupicateUserName') {
+    //     this.alreadyRegisteredEmail = this.email.value;
+    // } else if (500 <= result.status && result.status <=599) {
+    //   this.open500ErrorModal();
+    // }
     this.isPending = false;
   }
 }

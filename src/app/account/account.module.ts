@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AccountRoutingModule } from './account.routing';
-import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+
+import { RegisterComponent } from './register/register.component';
 import { AccountService } from './account.service';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
   declarations: [
     LoginComponent,
     RegisterComponent,
-    PasswordResetComponent,
+    ResetPasswordComponent,
   ],
   providers: [AccountService]
 })

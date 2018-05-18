@@ -1,0 +1,10 @@
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\bin\Debug\netcoreapp2.0\OzdStarter.WebApi.deps.json
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\bin\Debug\netcoreapp2.0\OzdStarter.WebApi.runtimeconfig.json
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\bin\Debug\netcoreapp2.0\OzdStarter.WebApi.runtimeconfig.dev.json
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\bin\Debug\netcoreapp2.0\OzdStarter.WebApi.dll
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\bin\Debug\netcoreapp2.0\OzdStarter.WebApi.pdb
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\obj\Debug\netcoreapp2.0\OzdStarter.WebApi.csproj.CoreCompileInputs.cache
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\obj\Debug\netcoreapp2.0\OzdStarter.WebApi.AssemblyInfoInputs.cache
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\obj\Debug\netcoreapp2.0\OzdStarter.WebApi.AssemblyInfo.cs
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\obj\Debug\netcoreapp2.0\OzdStarter.WebApi.dll
+C:\Users\DavidLaughlin\Development\Git\OzdStarter\OzdStarter.WebApi\obj\Debug\netcoreapp2.0\OzdStarter.WebApi.pdb
